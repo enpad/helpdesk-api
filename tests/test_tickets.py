@@ -56,6 +56,21 @@ def test_closed_ticket_can_still_be_read(client, ticket_id):
     assert client.get(f"/tickets/{ticket_id}").status_code == 200
 
 
+def test_closed_ticket_can_be_reopened(client, ticket_id):
+    client.patch(f"/tickets/{ticket_id}", json={"status": "closed"})
+    response = client.patch(f"/tickets/{ticket_id}", json={"status": "open"})
+    assert response.status_code == 200
+    assert response.json()["status"] == "open"
+
+
+def test_closed_ticket_reopen_with_extra_field_still_conflicts(client, ticket_id):
+    client.patch(f"/tickets/{ticket_id}", json={"status": "closed"})
+    response = client.patch(
+        f"/tickets/{ticket_id}", json={"status": "open", "title": "Otro titulo distinto"}
+    )
+    assert response.status_code == 409
+
+
 def test_delete_open_ticket(client, ticket_id):
     assert client.delete(f"/tickets/{ticket_id}").status_code == 204
 
