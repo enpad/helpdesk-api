@@ -56,7 +56,7 @@ def get_ticket(ticket_id: str):
 
 @router.patch("/{ticket_id}", response_model=Ticket)
 def update_ticket(ticket_id: str, payload: TicketUpdate):
-    changes = payload.model_dump()
+    changes = payload.model_dump(exclude_unset=True)
     return ticket_service.update(ticket_id, changes)
 
 
