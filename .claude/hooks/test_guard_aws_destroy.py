@@ -37,6 +37,11 @@ def test_blocks_aws_delete_bucket():
     assert result.returncode == 2
 
 
+def test_blocks_aws_s3_rb_shorthand():
+    result = run_hook("aws s3 rb s3://claude-course-demo-artifacts")
+    assert result.returncode == 2
+
+
 def test_allows_terraform_plan():
     result = run_hook("terraform plan -out=demo.tfplan")
     assert result.returncode == 0

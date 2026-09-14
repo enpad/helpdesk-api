@@ -12,6 +12,10 @@ BLOCK_PATTERNS = [
     re.compile(r"\baws\b[^\n]*\b(terminate-instances|delete-bucket|delete-object|"
                 r"delete-objects|delete-role|delete-instance-profile|"
                 r"delete-security-group|deregister-image)\b"),
+    # `aws s3` has friendly-name subcommands that don't spell out the
+    # underlying API verb (e.g. `s3 rb` calls DeleteBucket) — caught this
+    # bypassing the pattern above during a live rehearsal.
+    re.compile(r"\baws\s+s3\s+rb\b"),
 ]
 
 # Strips single- and double-quoted substrings (e.g. commit messages, -m
