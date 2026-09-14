@@ -81,8 +81,7 @@
       "Action": "ec2:RunInstances",
       "Resource": [
         "arn:aws:ec2:*:<ACCOUNT_ID>:instance/*",
-        "arn:aws:ec2:*:<ACCOUNT_ID>:volume/*",
-        "arn:aws:ec2:*:<ACCOUNT_ID>:network-interface/*"
+        "arn:aws:ec2:*:<ACCOUNT_ID>:volume/*"
       ],
       "Condition": {
         "StringEquals": {
@@ -102,11 +101,12 @@
       }
     },
     {
-      "Sid": "Ec2RunInstancesReferencedSubnetAndImage",
+      "Sid": "Ec2RunInstancesReferencedOrEphemeralUntagged",
       "Effect": "Allow",
       "Action": "ec2:RunInstances",
       "Resource": [
         "arn:aws:ec2:*:<ACCOUNT_ID>:subnet/*",
+        "arn:aws:ec2:*:<ACCOUNT_ID>:network-interface/*",
         "arn:aws:ec2:*::image/*"
       ]
     },
