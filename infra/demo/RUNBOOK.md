@@ -130,14 +130,21 @@ Once applied, it should surface the `public_ip` and `health_url` outputs.
 
 ## 2. Wait for the service with /loop
 
-In the live Claude Code session:
-```
-/loop 20s infra/demo/scripts/check_health.sh <public_ip>
-```
-Stop the loop as soon as it prints `healthy` (timeout: 5 minutes — if it
-never comes up, use SSM Session Manager to connect to the instance and check
-`journalctl -u helpdesk-api -e` for the `user_data` failure; this is a real
-diagnostic moment if it happens, not scripted — let Claude investigate).
+Say to Claude, without naming a script:
+
+> "/loop 20s ayúdame a checar que esta app esté arriba"
+
+**What should happen:** Claude decides how to check — it may find and reuse
+`infra/demo/scripts/check_health.sh` (it exists in the repo, but nothing
+here names it), or improvise its own `curl` against `<public_ip>:8000/health`.
+Either is fine; the point is watching it choose, not dictating the
+command.
+
+Stop the loop as soon as it reports the service is up (timeout: 5 minutes —
+if it never comes up, use SSM Session Manager to connect to the instance
+and check `journalctl -u helpdesk-api -e` for the `user_data` failure; this
+is a real diagnostic moment if it happens, not scripted — let Claude
+investigate).
 
 ## 3. Chrome walkthrough
 
