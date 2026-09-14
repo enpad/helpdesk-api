@@ -18,7 +18,7 @@ chmod +x "${STUB_DIR}/aws"
 
 export PATH="${STUB_DIR}:${PATH}"
 
-OUTPUT_KEY="$("${REPO_ROOT}/infra/demo/scripts/build_and_publish.sh" test-bucket-123 us-east-1)"
+OUTPUT_KEY="$("${REPO_ROOT}/infra/demo/scripts/build_and_publish.sh" test-bucket-123 us-east-1 test-profile)"
 
 # 1. The script printed a well-formed S3 key on stdout.
 if [[ ! "$OUTPUT_KEY" =~ ^releases/helpdesk-api-[0-9a-f]{7,}\.tar\.gz$ ]]; then
@@ -26,8 +26,8 @@ if [[ ! "$OUTPUT_KEY" =~ ^releases/helpdesk-api-[0-9a-f]{7,}\.tar\.gz$ ]]; then
   exit 1
 fi
 
-# 2. The stub `aws` was invoked with the expected bucket/key/region.
-if ! grep -q "s3://test-bucket-123/${OUTPUT_KEY} --region us-east-1" "${AWS_LOG}"; then
+# 2. The stub `aws` was invoked with the expected bucket/key/region/profile.
+if ! grep -q "s3://test-bucket-123/${OUTPUT_KEY} --region us-east-1 --profile test-profile" "${AWS_LOG}"; then
   echo "FAIL: aws s3 cp was not called with the expected destination" >&2
   cat "${AWS_LOG}" >&2
   exit 1

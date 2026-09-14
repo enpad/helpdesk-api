@@ -8,6 +8,11 @@ variable "aws_account_id" {
   type        = string
 }
 
+variable "aws_profile" {
+  description = "Named AWS CLI profile to use — must be a scoped identity (e.g. claude-course-demo), never a root or admin profile. Terraform never falls back to an implicit default profile."
+  type        = string
+}
+
 variable "operator_cidr" {
   description = "Operator's current public IP as a /32 CIDR, e.g. 203.0.113.10/32. The security group only allows this CIDR on port 8000."
   type        = string
