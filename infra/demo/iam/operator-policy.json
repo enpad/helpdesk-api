@@ -71,7 +71,8 @@
         "ec2:DescribeTags",
         "ec2:DescribeAccountAttributes",
         "ec2:DescribeInstanceTypes",
-        "ec2:DescribeKeyPairs"
+        "ec2:DescribeKeyPairs",
+        "ec2:DescribeNetworkInterfaces"
       ],
       "Resource": "*"
     },
