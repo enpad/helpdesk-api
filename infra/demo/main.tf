@@ -89,7 +89,7 @@ resource "aws_iam_instance_profile" "ec2" {
 
 resource "aws_security_group" "demo" {
   name        = "${var.project_tag}-sg"
-  description = "Course demo: only the operator's IP can reach port 8000. No SSH."
+  description = "Course demo: only the operator IP can reach port 8000. No SSH."
 
   ingress {
     description = "Helpdesk API, operator only"
