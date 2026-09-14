@@ -57,16 +57,22 @@ approval flow already asks):
    `aws:RequestTag`/`ec2:ResourceTag`, S3 and IAM gated by ARN name
    prefix; EC2 `Describe*` reads are necessarily unscoped — AWS does not
    support resource-level permissions for them) and attach it:
+   The policy document is checked in at `infra/demo/iam/operator-policy.json`
+   — substitute `<ACCOUNT_ID>` in it for the real account id first:
    ```bash
+   sed "s/<ACCOUNT_ID>/<account-id>/g" infra/demo/iam/operator-policy.json > /tmp/operator-policy.json
    aws iam create-policy --profile <root-or-admin-profile> \
      --policy-name claude-course-demo-operator-scoped \
-     --policy-document file:///path/to/operator-policy.json
+     --policy-document file:///tmp/operator-policy.json
    aws iam attach-user-policy --profile <root-or-admin-profile> \
      --user-name claude-course-demo-operator-user \
      --policy-arn arn:aws:iam::<account-id>:policy/claude-course-demo-operator-scoped
    ```
    (An inline policy this size will hit the 2048-byte inline-policy limit —
-   use a managed policy instead, which allows up to 6144 bytes.)
+   use a managed policy instead, which allows up to 6144 bytes. Both
+   `create-policy` and `attach-user-policy` may need your explicit approval
+   through Claude Code's own permission classifier, on top of the AWS-side
+   permissions — this is expected for IAM changes.)
 3. Create an access key and add it as a named profile (`~/.aws/credentials`
    `[claude-course-demo]` + matching `[profile claude-course-demo]` in
    `~/.aws/config` with just the region — no `role_arn`, since step 1 ruled
