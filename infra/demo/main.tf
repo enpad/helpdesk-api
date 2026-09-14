@@ -122,6 +122,17 @@ resource "aws_instance" "demo" {
     http_endpoint = "enabled"
   }
 
+  # Without this, the root EBS volume gets no tags in the RunInstances
+  # call itself — Terraform tags it via a separate CreateTags call after
+  # creation instead, same as it does for the security group. Tagging it
+  # here keeps the "every resource carries Project=claude-course-demo"
+  # guarantee true from the moment of creation, not after the fact.
+  root_block_device {
+    tags = {
+      Project = var.project_tag
+    }
+  }
+
   user_data = templatefile("${path.module}/user_data.sh.tpl", {
     bucket = var.artifact_bucket_name
     key    = var.artifact_s3_key
