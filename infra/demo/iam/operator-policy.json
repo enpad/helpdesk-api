@@ -73,7 +73,12 @@
         "ec2:DescribeInstanceTypes",
         "ec2:DescribeKeyPairs",
         "ec2:DescribeNetworkInterfaces",
-        "ec2:DescribeInstanceAttribute"
+        "ec2:DescribeNetworkInterfaceAttribute",
+        "ec2:DescribeInstanceAttribute",
+        "ec2:DescribeInstanceCreditSpecifications",
+        "ec2:DescribeInstanceStatus",
+        "ec2:DescribeVolumes",
+        "ec2:DescribeVolumeAttribute"
       ],
       "Resource": "*"
     },
