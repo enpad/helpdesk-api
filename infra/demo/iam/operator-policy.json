@@ -76,15 +76,39 @@
       "Resource": "*"
     },
     {
-      "Sid": "Ec2RunInstancesTaggedOnly",
+      "Sid": "Ec2RunInstancesCreatedResourcesTaggedOnly",
       "Effect": "Allow",
       "Action": "ec2:RunInstances",
-      "Resource": "*",
+      "Resource": [
+        "arn:aws:ec2:*:<ACCOUNT_ID>:instance/*",
+        "arn:aws:ec2:*:<ACCOUNT_ID>:volume/*",
+        "arn:aws:ec2:*:<ACCOUNT_ID>:network-interface/*"
+      ],
       "Condition": {
         "StringEquals": {
           "aws:RequestTag/Project": "claude-course-demo"
         }
       }
+    },
+    {
+      "Sid": "Ec2RunInstancesReferencedSecurityGroupTaggedOnly",
+      "Effect": "Allow",
+      "Action": "ec2:RunInstances",
+      "Resource": "arn:aws:ec2:*:<ACCOUNT_ID>:security-group/*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:ResourceTag/Project": "claude-course-demo"
+        }
+      }
+    },
+    {
+      "Sid": "Ec2RunInstancesReferencedSubnetAndImage",
+      "Effect": "Allow",
+      "Action": "ec2:RunInstances",
+      "Resource": [
+        "arn:aws:ec2:*:<ACCOUNT_ID>:subnet/*",
+        "arn:aws:ec2:*::image/*"
+      ]
     },
     {
       "Sid": "Ec2CreateSecurityGroupUntaggedAtCreation",
