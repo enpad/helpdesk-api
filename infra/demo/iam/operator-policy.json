@@ -76,18 +76,21 @@
       "Resource": "*"
     },
     {
-      "Sid": "Ec2CreateTaggedOnly",
+      "Sid": "Ec2RunInstancesTaggedOnly",
       "Effect": "Allow",
-      "Action": [
-        "ec2:RunInstances",
-        "ec2:CreateSecurityGroup"
-      ],
+      "Action": "ec2:RunInstances",
       "Resource": "*",
       "Condition": {
         "StringEquals": {
           "aws:RequestTag/Project": "claude-course-demo"
         }
       }
+    },
+    {
+      "Sid": "Ec2CreateSecurityGroupUntaggedAtCreation",
+      "Effect": "Allow",
+      "Action": "ec2:CreateSecurityGroup",
+      "Resource": "*"
     },
     {
       "Sid": "Ec2CreateTaggingAndVolumesForRunInstances",
